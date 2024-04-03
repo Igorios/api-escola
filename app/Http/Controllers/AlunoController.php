@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AlunoRequest;
 use App\Models\Aluno;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class AlunoController extends Controller
      */
     public function index()
     {
-        return response(Aluno::get(), 200, []); 
+        return response(Aluno::get(), 200, []);
     }
 
     /**
@@ -23,15 +24,8 @@ class AlunoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AlunoRequest $request)
     {
-
-        $request->validate([
-            'nome' => ['required', 'string', 'between:2,100'],
-            'nascimento' => ['required', 'date'],
-            'genero' => ['required', 'size:1'],
-            'turma_id' => ['required', 'int', 'exists:turmas,id']
-        ]);
 
         $dadosAluno = $request->all();
 
@@ -49,16 +43,25 @@ class AlunoController extends Controller
         return $aluno;
     }
 
-    /** 
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Aluno $aluno)
     {
-        //
+        $request->validate([
+            'nome' => ['required', 'string', 'between:2,100'],
+            'nascimento' => ['required', 'date'],
+            'genero' => ['required', 'size:1'],
+            'turma_id' => ['required', 'int', 'exists:turmas,id']
+        ]);
+
+        $aluno->update($request->all());
+
+        return $aluno;
     }
 
     /**
@@ -67,8 +70,10 @@ class AlunoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Aluno $aluno)
     {
-        //
+        $aluno->delete();
+
+        return [];
     }
 }

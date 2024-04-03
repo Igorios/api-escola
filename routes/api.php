@@ -25,6 +25,7 @@ Route::get('alunos/{aluno}', [AlunoController::class, 'show'])->name('alunos.sho
 
 Route::post('/alunos', [AlunoController::class, 'store'])->name('alunos.store');
 
-Route::put('/alunos', [])->name('alunos.update');
-Route::delete('alunos', [])->name('alunos.destroy');
+Route::put('/alunos/{aluno}', [AlunoController::class, 'update'])->name('alunos.update');
+
+Route::delete('alunos/{aluno}', [AlunoController::class, 'destroy'])->name('alunos.destroy');
 
