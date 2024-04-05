@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -33,5 +35,23 @@ class Handler extends ExceptionHandler
     public function register()
     {
         //
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        if ($request->is('api/v1/*')) {
+
+            if ($exception instanceof ModelNotFoundException) {
+                return response([
+                    "code" => "registro-nao-encontrado",
+                    "message" => "Não encontramos o registro que você procura",
+                    "status" => 404
+                ], 404);
+            }
+
+
+        }
+
+        return parent::render($request, $exception);
     }
 }
