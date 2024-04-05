@@ -2,9 +2,10 @@
 
 namespace App\Exceptions;
 
+use Throwable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Throwable;
+use Illuminate\Validation\ValidationException;
 
 class Handler extends ExceptionHandler
 {
@@ -47,6 +48,16 @@ class Handler extends ExceptionHandler
                     "message" => "Não encontramos o registro que você procura",
                     "status" => 404
                 ], 404);
+            }
+
+            if ($exception instanceof ValidationException) {
+
+                return response([
+                    "code" => "erro-na-validacao-dos-dados",
+                    "message" => "Não foi possível validar os dados",
+                    "status" => 400,
+                    "erros" => $exception->errors()
+                ], 400);
             }
 
 
