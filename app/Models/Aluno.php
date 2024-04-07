@@ -12,9 +12,15 @@ class Aluno extends Model
 
     protected $fillable = ['nome', 'nascimento', 'genero', 'turma_id'];
 
+    protected $casts = [
+        'nascimento' => 'date:d/m/Y'
+    ];
+
+    //protected $hidden = ['created_at', 'updated_at'];
+    
     public function turma(): BelongsTo 
     {
         return $this->belongsTo(Turma::class);
-    }
+    } 
 
 }

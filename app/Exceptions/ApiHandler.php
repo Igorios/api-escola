@@ -21,6 +21,8 @@ trait ApiHandler
             return $this->validationException($exception);
         }
 
+        return false;
+
     }
 
     public function modelNotFoundException()
