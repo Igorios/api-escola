@@ -16,7 +16,7 @@ class AlunoResource extends JsonResource
     {
         return [
             "idAluno" => $this->id,
-            "nomeAluno" => $this->nome,
+            "nome" => $this->nome,
             "nascimento" => $this->nascimento,
             "genero" => $this->genero,
             "turma" => new TurmaResource($this->turma)
